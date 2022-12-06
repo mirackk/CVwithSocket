@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Recognition Application</title>
+</head>
+<body>
+    <h1>Image Recognition Application</h1>
+    <form action="" enctype='multipart/form-data' method='POST'>
+        <i>Submit your image file</i>
+        <input type="file" name="file" style="margin-top:20px;"/>
+        <br>
+        <input type="submit" value="Submit" class="button-new" style="margin-top:15px;"/>
+    </form>
+    <h1>Similarity Result：</h1>
+    <h4>Top 1:{{type.split("/")[0]}}</h4>
+    <h4>Top 2:{{type.split("/")[1]}}</h4>
+    <h4>Top 3:{{type.split("/")[2]}}</h4>
+    <h4>Top 4:{{type.split("/")[3]}}</h4>
+    <h4>Top 5:{{type.split("/")[4]}}</h4>
+    <img src="{{ url_for('static', filename= './images/test.jpg',_t=val1) }}" width="400" height="400" alt="Submit Image"/>
+</body>
+</html>
