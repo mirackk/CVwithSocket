@@ -53,7 +53,7 @@ def deal_data(conn, addr):
             new_filename = os.path.join(str.encode('./'), str.encode('new_') + fn)
             print ('file new name is {0}, filesize if {1}'.format(new_filename, filesize))
 
-            recvd_size = 0  # 定义已接收文件的大小
+            recvd_size = 0  # define the data size that is received
             fp = open(new_filename, 'wb')
             print ("start receiving...")
             while not recvd_size == filesize:
@@ -88,7 +88,7 @@ def deal_data(conn, addr):
     with open("imagenet_classes.txt", "r") as f:
         categories = [s.strip() for s in f.readlines()]
     top5_prob, top5_catid = torch.topk(probabilities, 5)
-    #预测结果
+    # predict results
     a = ""
     for i in range(top5_prob.size(0)):
         result.append(categories[top5_catid[i]])

@@ -7,7 +7,7 @@ import requests
 
 from datetime import timedelta
 
-# 设置允许的文件格式
+# set allowing file format
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'JPG', 'PNG', 'bmp'])
 
 
@@ -17,12 +17,12 @@ def allowed_file(filename):
 
 app = Flask(__name__)
 
-@app.route('/hello', methods=['POST', 'GET'])  # 添加路由
+@app.route('/hello', methods=['POST', 'GET'])  # add route
 def hello():
     return "hello"
 
 
-@app.route('/', methods=['POST', 'GET'])  # 添加路由
+@app.route('/', methods=['POST', 'GET'])  # add route
 def upload():
     if request.method == 'POST':
         f = request.files['file']
@@ -30,13 +30,12 @@ def upload():
         if not (f and allowed_file(f.filename)):
             return jsonify({"error": 1001, "msg": "请检查上传的图片类型，仅限于png、PNG、jpg、JPG、bmp"})
 
-        basepath = os.getcwd()  # 当前文件所在路径
+        basepath = os.getcwd()  # current path of the file
 
-        upload_path = os.path.join(basepath, 'static/images', secure_filename(f.filename))  # 注意：没有的文件夹一定要先创建，不然会提示没有该路径
-        # upload_path = os.path.join(basePath, 'static/images','test.jpg')  #注意：没有的文件夹一定要先创建，不然会提示没有该路径
+        upload_path = os.path.join(basepath, 'static/images', secure_filename(f.filename))  # pleas mkdir the folder first
         f.save(upload_path)
 
-        # 使用Opencv转换一下图片格式和名称
+        # use opencv to transform the img format
         img = cv2.imread(upload_path)
         cv2.imwrite(os.path.join(basepath, 'static/images', 'test.jpg'), img)
         type = requests.get('http://localhost:5000/client?fileAddress='+upload_path).text

@@ -28,9 +28,8 @@ def client():  # put application's code here
     filepath = filepath.replace("\\","/")
     print(filepath)
     # filepath = 'C:/Users/Jace/Downloads/final/23.jpg'
-    # 定义定义文件信息。128s表示文件名为128bytes长，l表示一个int或log文件类型，在此为文件大小
     fileinfo_size = struct.calcsize('128sl')
-    # 定义文件头信息，包含文件名和文件大小
+    # define the head infomaiton of the file
     fhead = struct.pack('128sl', bytes(os.path.basename(filepath).encode('utf-8')), os.stat(filepath).st_size)
     s.send(fhead)
     print('client filepath: {0}'.format(filepath))
@@ -57,17 +56,22 @@ def client():  # put application's code here
 
     msgSize = os.stat(filepath).st_size
     print(msgSize)
-    measurement = "rtt"
-    if measurement == "rtt":
-        avrRTT = 1e3 * sum(results) / len(results)
+    measurement = "all"
+    if measurement == "rtt" or measurement =="all":
+        avrRTT = 1e3 * sum(results) / len(results) # ms
         print(avrRTT)
         dataframe = pd.DataFrame({"size": msgSize, "rtt": avrRTT}, index=[0])
         dataframe.to_csv('rtt.csv', mode='a', header=False, index=None)
-    if measurement == "tput":
+    if measurement == "tput" or measurement =="all":
         avrTPUT = 1e-6 * sum([msgSize * 8 / i for i in results]) / len(results)  # Mbps
-        dataframe = pd.DataFrame({"size": msgSize, "rtt": avrTPUT}, index=[0])
+        dataframe = pd.DataFrame({"size": msgSize, "tput": avrTPUT}, index=[0])
         dataframe.to_csv('tput.csv', mode='a', header=False, index=None)
         print(avrTPUT)  # Mbps
+    if measurement == "total" or measurement =="all":
+        totalTime = 1e3 * sum(results) # ms
+        print(totalTime)
+        dataframe = pd.DataFrame({"size": msgSize, "total": totalTime}, index=[0])
+        dataframe.to_csv('total.csv', mode='a', header=False, index=None)
 
     # In[ ]:
 
